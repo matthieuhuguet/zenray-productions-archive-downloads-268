@@ -1,0 +1,65 @@
+# 3 Components Proceduraux Houdini : Chapelle Louisiana Bayou
+
+Date : 2026-09-10
+Auteur : ZenRay (@zenray.st)
+Sujet : Houdini Procedural Church / 3 Master Components (Armature, Facade, Perron)
+Format media : 3 Reels Master Retina (3456x2234 a 60 fps) avec bande son dediee
+Fichiers video :
+1. `reel-01-armature-15s-audio.mp4` (Musique : Orpheline, Johanna Baget)
+2. `reel-02-woodfacade-15s-audio.mp4` (Musique : Eikonoklasm)
+3. `reel-03-porchstairs-15s-audio.mp4` (Musique : Clair Obscur Expedition 33, Monoco's Station)
+
+---
+
+## Texte du post (Style Damien Richard 3D Tech Artist)
+
+### Version Francaise
+
+Pendant plusieurs semaines, j'ai bosse sur la modelisation procedurale d'une chapelle bayou sous Houdini. Une question qui parait simple en apparence, mais seulement en apparence.
+
+Pour construire ce batiment, j'ai d'abord concu trois briques separees :
+1. L'armature bois gothique (`Component_Armature`) : arches circulaires tangentes au poincon, pendentif d'apex sous faitage, croix latine sur pignon et UVs sweep calibrees au millimetre a 4.0 texel density.
+2. La facade a clin (`Component_WoodFacade`) : decoupes automatiques sous pente de toit par booleen inverse, 244 faces de tranche biseautees a 45 degres depliees sans aucune deformation de damier.
+3. Le perron sur pilotis (`Component_PorchStairs`) : escalier a cremaillere, balustrade a fuseaux reguliers, poteaux corniers a boules decoratives et projection tri-axiale a 4.0 avec decalage aleatoire du veinage.
+
+Mais voila le constat lucide : en voulant decouper mon eglise en 3 composants HDA completement independants, j'ai fait une erreur de design d'asset. C'etait seduisant sur le papier, mais en pratique c'est contre-productif : quand je veux modifier la pente du toit ou la largeur de la nef sur l'armature, la facade et le perron ne sont pas lies. Je dois reporter chaque cote a la main sous peine de voir des poutres flotter dans le vide.
+
+Trois composants proceduraux solides dans leur coin ne font pas un hero asset fonctionnel tant qu'ils ne partagent pas un cerveau commun. Prochaine etape : interconnecter ces 3 briques dans un master rig unifie.
+
+Merci d'avoir pris le temps de regarder et de lire ᕙ(`▿´)ᕗ
+
+### English Version
+
+For the past few weeks, I've been working on a procedural Louisiana bayou church in Houdini. A problem that sounds simple on the surface, but only on the surface.
+
+To build this structure, I initially developed three standalone modules:
+1. The Gothic timber frame (`Component_Armature`): circular arch braces tangent to the king post, pendant drop at the junction, gable apex cross, and sweep UVs locked to 4.0 texel density.
+2. The clapboard siding (`Component_WoodFacade`): automatic beveled plank cuts under the gable pitch via inverted boolean trim, with 244 mitered edges unwrapped without any UV distortion.
+3. The entrance porch (`Component_PorchStairs`): stilt platform against floods, bullnose treads, ornamental newel posts, and 4.0 texel density tri-planar projection with randomized grain offsets.
+
+Here is the honest takeaway though: splitting the church into 3 isolated HDAs was a questionable design choice. It looked great for modularity, but in practice it creates heavy iteration friction: tweaking the roof pitch or church width on the frame leaves the siding and porch out of sync. I have to manually balance numbers across nodes.
+
+Three solid procedural components don't make a production-ready hero asset until they share a single control brain. Next step: linking all three modules into a synchronized master rig.
+
+Thanks for taking the time to read and watch ᕙ(`▿´)ᕗ
+
+---
+
+## Parametres exposes et dynamiques testees en direct (60 fps)
+
+| Composant | Parametres cles animes | Plage testee | Effet visuel observe |
+|---|---|---|---|
+| **01 Armature** | `arch_angle`, `front_gable_height`, `beam_size`, `cross_height` | 55 -> 78 deg, 2.4 -> 3.4 m, 0.11 -> 0.16 m | Galbe circulaire des arbaletriers et elevation du faitage |
+| **02 WoodFacade** | `plank_count`, `plank_thickness`, `plank_overlap`, `wall_height` | 28 -> 42 cours, 0.025 -> 0.055 m, 2.2 -> 2.7 m | Rythme des lattes et biseau d'ombre sous sabliere |
+| **03 PorchStairs** | `step_count`, `porch_width`, `railing_height`, `baluster_spacing` | 6 -> 9 marches, 2.2 -> 3.1 m, 0.9 -> 1.15 m | Hauteur d'acces sur pilotis et densite de fuseaux |
+
+---
+
+## Metadonnees techniques des masters video
+
+- Resolution : 3456 x 2234 pixels (Liquid Retina native Mac, ratio 1.55:1)
+- Cadence : 60.0 fps constant
+- Codec video : HEVC / H.265 (Main profile, debit master preserve sans recompression)
+- Codec audio : AAC stereo 320 kbps avec fondus d'entree et de sortie d'une seconde
+- Duree : 15.0 secondes par reel
+- Validation UVs : 4.000 texel density verifiee sur 100% des primitives
